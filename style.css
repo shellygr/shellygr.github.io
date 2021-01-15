@@ -1,0 +1,186 @@
+/* css Zen Garden submission 175 - 'Business Style', by Gunta Klavina, http://www.klavina.com/ */
+/* css released under Creative Commons License - http://creativecommons.org/licenses/by-nc-sa/1.0/  */
+/* All associated graphics copyright 2005, Gunta Klavina */
+/* Added: July 9th, 2005 */
+
+/* IMPORTANT */
+/* This design is not a template. You may not reproduce it elsewhere without the 
+   designer's written permission. However, feel free to study the CSS and use 
+   techniques you learn from it elsewhere. */
+
+
+
+body
+    {
+    margin: 0;
+    padding: 0;
+    color: #333;
+    font: 13px Trebuchet MS, Lucida Sans Unicode, Arial, sans-serif;
+    background: #E2EBED;
+    text-align: center;
+    }
+a
+    {
+    color: #307082;
+    }
+a:hover
+    {
+    color: #D60808;
+    }
+abbr
+    {
+    border: none;
+    }
+h2
+{
+	color:#000000;
+	font: 18px Trebuchet MS, Lucida Sans Unicode, Arial, sans-serif;
+	padding-top:7pt;
+	margin-top: 3pt;
+}
+h3
+{
+	color:#000000;
+	font: 16px Trebuchet MS, Lucida Sans Unicode, Arial, sans-serif;
+	padding-top: 6pt;
+	margin-top: 6pt;
+}
+
+
+.centered
+	{
+		text-align:center;
+	}
+
+.code
+	{
+		font-family: Serif;
+	}
+	
+.page-wrapper
+    {
+    margin: 0 auto;
+    width: 750px;
+    position: relative;
+    background: #fff;
+    padding: 0 10px 0 10px;
+    text-align: left;
+    }
+* html .page-wrapper
+    {
+    width: 744px;
+    w\idth: 724px;
+    }
+
+header
+    {
+    position: absolute;
+    top: 25px;
+    left: 40px;
+    }
+.summary
+    {
+    padding-top: 85px;
+    }
+.summary p:last-child
+    {
+    font-size: 12px;
+    position: absolute;
+    top: 65px;
+    right: 20px;
+    margin: 0;
+    }
+.page-wrapper .intro .summary p:first-child
+    {
+    font-size: 11px;
+    background: url("background.jpg") no-repeat;
+    margin: 0;
+    width: 164px;
+    height: 141px;
+    padding: 30px 530px 0 30px;
+    color: #fff;
+    font: 12px/150% Trebuchet MS;
+    }
+
+.preamble, .supporting
+    {
+    margin: 0 20px 0 200px;
+    }
+.supporting p, .preamble p
+    {
+    line-height: 150%;
+    margin: 10px 0 10px 0;
+    }
+.top-sidebar
+{
+	position: relative;
+	width: 210px;
+	height: 290px;
+
+}
+.dotimg
+{
+	position: relative;
+	top:3px;
+}
+.strudelimg
+{
+	width: 14px;
+	height: 14px;
+	position: relative;
+	top:3px;
+
+}
+.sidebar
+    {
+    position: absolute;
+    top: 0px;
+    left: 0;
+    width: 210px;
+    }
+.topic-selection ul, .topic-archives ul, .zen-resources ul
+    {
+    list-style-type: none;
+    margin: 0;
+    padding: 0 0 0 30px;
+    }
+.topic-selection ul li a
+    {
+    text-decoration: underline;
+    display: block;
+    font-size: 13px;
+    }
+.topic-selection ul li.c, .topic-selection ul li a.designer-name
+    {
+    display: inline;
+    font-size: 12px;
+    color: #333;
+    }
+.topic-selection ul li a.designer-name
+    {
+    text-decoration: none;
+    }
+.topic-selection ul li a.designer-name:hover
+    {
+    color: #D60808;
+    }
+.topic-selection ul li
+    {
+    font-size: 12px;
+    border-bottom: 1px solid #E6EEF0;
+    }
+.sidebar .topic-archives ul li
+    {
+    font-size: 13px;
+    border-bottom: 1px solid #E6EEF0;
+    display: block;
+    padding: 5px 0;
+    }
+.sidebar .zen-resources ul li
+    {
+    font-size: 13px;
+    border-bottom: 1px solid #E6EEF0;
+    display: block;
+    padding: 5px 0;
+    }
+

@@ -1,0 +1,106 @@
+// https://pastebin.com/YRM9Z906
+function method sum (s: seq<int>, i: int) : int {
+  if |s| == 0 || i == 0 then 0
+  else s[0] + sum(s[1..], i - 1) 
+}
+
+lemma sumLemma(s: seq<int>, i: int)
+   requires i >= 0 && i < |s|
+   ensures (sum(s, i) + s[i]) == sum(s, i + 1)
+{
+}
+
+lemma sum0Lemma(s: seq<int>)
+   requires forall k :: 0 <= k < |s| ==> s[k]==0
+   ensures sum(s,|s|) == 0
+{
+}
+
+function method update(s: seq<int>, i: int, v: int): seq<int>
+  requires 0 <= i && i < |s|
+   ensures update(s, i,v) == s[i := v]
+   ensures update(s,i,v)[i]==v
+   ensures |update(s,i,v)| == |s|
+   ensures sum(update(s,i,v),|s|)==sum(s,|s|)-s[i]+v
+{
+  if i==0 then [v]+s[1..]
+  else [s[0]]+update(s[1..],i-1,v)
+}
+ 
+class Account {
+  var balance: int;
+}
+
+class Dao {
+  var credit: seq<int>;
+  var balance: int;
+}
+
+method pay(sender: Account, dao: Dao, amount : int) returns (ret: bool)
+  requires sender != null && dao != null
+  modifies dao // Comment out and see that verification passes even if code is still in the non-ECF version
+  modifies sender
+  // Uncomment the line below to get the ECF version of the contract - fields read by the caller are not modified by the callee
+  //ensures dao.balance==old(dao.balance) && dao.credit==old(dao.credit)
+{
+  sender.balance := sender.balance+amount;
+  ret := true;
+}
+
+method deposit(dao : Dao, sender : Account, i : int, amount : int) returns (z : bool)
+  requires sender != null && dao != null
+  requires 0<=i && i < |dao.credit|
+  requires sum(dao.credit,|dao.credit|) == dao.balance
+  requires forall k :: 0 <= k < |dao.credit| ==> dao.credit[k] >= 0
+  requires amount >= 0
+  modifies sender
+  modifies dao
+  ensures |dao.credit| == |old(dao.credit)|
+  ensures sum(dao.credit,|dao.credit|) == dao.balance
+  ensures forall k :: 0 <= k < |dao.credit| ==> dao.credit[k] >= 0
+{
+  var x := |dao.credit|;
+  z := true;
+  sender.balance := sender.balance - amount;
+  dao.balance := dao.balance + amount;
+  dao.credit := update(dao.credit,i,dao.credit[i]+amount);
+}
+
+method withdrawAll(dao : Dao, sender: Account, i:int) returns (z: bool)
+  requires sender != null && dao != null
+  requires 0<=i && i < |dao.credit|
+  requires dao.credit[i] >= 0
+  requires sum(dao.credit,|dao.credit|)==dao.balance
+  requires forall k :: 0 <= k < |dao.credit| ==> dao.credit[k] >= 0
+  modifies sender
+  modifies dao
+  ensures |dao.credit| == |old(dao.credit)|
+  ensures sum(dao.credit,|dao.credit|)==dao.balance
+  ensures forall k :: 0 <= k < |dao.credit| ==> dao.credit[k] >= 0
+{
+  z := true;
+  if dao.credit[i] > 0
+  {
+    dao.balance := dao.balance-dao.credit[i];
+    //dao.credit := update(dao.credit,i,0); // The DAO bug suggested fix
+    z := pay(sender,dao,dao.credit[i]); // The callback is called from pay
+    dao.credit := update(dao.credit,i,0); 
+  }
+}
+
+method main() returns (ret: bool) {
+  var donator:= new Account;
+  donator.balance := 3000;
+  
+  var mallory := new Account;
+  mallory.balance := 1000;
+  
+  var dao := new Dao;
+  dao.credit := [0,0];
+  dao.balance := 0;
+  sum0Lemma(dao.credit);
+  
+  var ret1 := deposit(dao,donator,1,3000);
+  var ret2 := deposit(dao,mallory,0,1000);
+  ret := withdrawAll(dao,mallory,0); // 0==mallory's index.
+}
